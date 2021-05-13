@@ -7,6 +7,7 @@ const app = express()
 const createError = require('http-errors');
 const path = require('path');
 const cors = require('cors')
+const passport = require('passport')
 
 var corsOption = {
     origin: true,
@@ -18,6 +19,7 @@ app.use(cors(corsOption))
 app.use(express.urlencoded({
     extended: true
 }))
+app.use(passport.initialize)
 
 /*connection.then(() => {
     console.log('Conectado a la base de datos...')

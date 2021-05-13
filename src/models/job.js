@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const Schema = new SchemaMongo
+const Schema = mongoose.Schema
 
 const JobSchema = new Schema({
     companyName: String,
@@ -11,8 +11,10 @@ const JobSchema = new Schema({
         enum: ["fulltime", "freelancer", "partial", "project", "internship"]
     },
     photo: String,
-    companyWeb: String
+    companyWeb: String,
+    savedAt: { type: Date, default: Date.now },
+    updatedAt: { type: Date, default: Date.now }
 })
 
 
-module.exports = mongoose.model("job", Schema)
+module.exports = mongoose.model("job", JobSchema)
