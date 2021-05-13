@@ -1,14 +1,14 @@
 const mongoose = require('mongoose')
 const Schema = new SchemaMongo
 
-const JobSchema = new Schema({
+const UserSchema = new Schema({
     name: String,
     surname: String,
     role: {
         type: String,
         enum: ['user', 'company']
     },
-    phonenumber: Number,
+    phone: String,
     email: String
 })
 
