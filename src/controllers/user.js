@@ -74,18 +74,15 @@ controller.login = async(req, res) => {
 }
 
 controller.updateUser = async(req, res) => {
-    const id = req.params.id
-    const name = req.body.name
-    const surname = req.body.surname
-    const phone = req.body.phone
-    const email = req.body.email
+    const id = req.user._id
+    const valid = validatorSignUp.validate(req.body)
 
-    if (!name || !surname || !phone || !email) {
+    if (!valid) {
         res.status(400)
     }
 
     try {
-        await User.findByIdAndUpdate(id, { name: name, surname: surname, phone: phone, email: email, updatedAt: Date.now() })
+        await User.findByIdAndUpdate(id, { name: req.body.name, surname: req.body.surname, phone: req.body.phone, email: req.body.email, updatedAt: Date.now() })
         res.send()
     } catch (err) {
         console.log(err)
@@ -93,8 +90,9 @@ controller.updateUser = async(req, res) => {
     }
 }
 
+/**
 controller.deleteUser = async(req, res) => {
-    const id = req.params.id
+    const id = req.user._id
 
     try {
         await User.findByIdAndDelete(id)
@@ -104,5 +102,6 @@ controller.deleteUser = async(req, res) => {
         res.status(500).send("Error")
     }
 }
+*/
 
 module.exports = controller

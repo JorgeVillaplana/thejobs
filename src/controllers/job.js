@@ -1,18 +1,13 @@
 const controller = {}
 const Job = require("../models/job")
+const validator = require('../validators/job')
 
 controller.saveJob = async(req, res) => {
-    const companyName = req.body.companyName
-    const name = req.body.name
-    const description = req.body.description
-    const location = req.body.location
-    const type = req.body.type
-    const photo = req.body.photo
-    const companyWeb = req.body.companyName
-    const savedAt = req.body.savedAt
-    if (companyName && name && description && location && type && photo && companyWeb && savedAt) {
+    const valid = validator.validate(req.body)
+
+    if (valid) {
         try {
-            const job = new Job({ companyName: companyName, name: name, description: description, location: location, type: type, photo: photo, companyWeb: companyWeb, savedAt: Date.now() })
+            const job = new Job({ companyName: req.body.companyName, name: req.body.name, description: req.body.description, location: req.body.location, type: req.body.type, photo: req.body.photo, companyWeb: req.body.companyWeb })
             await job.save()
             res.status(204).send("Oferta guardada")
         } catch (err) {
@@ -56,18 +51,11 @@ controller.getJob = async(req, res) => {
     }
 }
 controller.updateJob = async(req, res) => {
-    const companyName = req.body.companyName
-    const name = req.body.name
-    const description = req.body.description
-    const location = req.body.location
-    const type = req.body.type
-    const photo = req.body.photo
-    const companyWeb = req.body.companyName
-    const id = req.params.id
+    const valid = validator.validate(req.body)
 
-    if (companyName && name && type && description && location && type && photo && companyWeb) {
+    if (valid) {
         try {
-            await Job.findByIdAndUpdate(id, { companyName: companyName, name: name, description: description, location: location, type: type, photo: photo, companyWeb: companyWeb, updatedAt: Date.now() })
+            await Job.findByIdAndUpdate(id, { companyName: req.body.companyName, name: req.body.name, description: req.body.description, location: req.body.location, type: req.body.type, photo: req.body.photo, companyWeb: req.body.companyWeb, updatedAt: Date.now() })
             res.status(204).send("Oferta actualizada")
         } catch (err) {
             console.log(err)
