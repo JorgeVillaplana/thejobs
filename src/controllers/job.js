@@ -7,7 +7,7 @@ controller.saveJob = async(req, res) => {
 
     if (valid) {
         try {
-            const job = new Job({ companyName: req.body.companyName, name: req.body.name, description: req.body.description, location: req.body.location, type: req.body.type, photo: req.body.photo, companyWeb: req.body.companyWeb })
+            const job = new Job({ companyName: req.body.companyName, name: req.body.name, description: req.body.description, location: req.body.location, type: req.body.type, photo: req.body.photo, companyWeb: req.body.companyWeb, publisher: req.user })
             await job.save()
             res.status(204).send("Oferta guardada")
         } catch (err) {
@@ -55,7 +55,7 @@ controller.updateJob = async(req, res) => {
 
     if (valid) {
         try {
-            await Job.findByIdAndUpdate(id, { companyName: req.body.companyName, name: req.body.name, description: req.body.description, location: req.body.location, type: req.body.type, photo: req.body.photo, companyWeb: req.body.companyWeb, updatedAt: Date.now() })
+            await Job.findByIdAndUpdate(id, { companyName: req.body.companyName, name: req.body.name, description: req.body.description, location: req.body.location, type: req.body.type, photo: req.body.photo, companyWeb: req.body.companyWeb, publisher: req.user, updatedAt: Date.now() })
             res.status(204).send("Oferta actualizada")
         } catch (err) {
             console.log(err)
