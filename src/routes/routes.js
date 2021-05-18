@@ -21,10 +21,5 @@ router.get('/user/myoffers', passport.auth, UserController.myOffers)
 
 router.post('/job/apply/:id', passport.auth, ApplyController.registerOffer)
 router.delete('/job/apply/:id', passport.auth, ApplyController.deleteOffer)
-    /**
-     * buscar por usuario
-     * borrado de ofertas
-     * resgistro de ofertas
-     * usuarios en ofertas
-     */
+
 module.exports = router

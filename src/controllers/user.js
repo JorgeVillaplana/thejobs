@@ -119,10 +119,11 @@ controller.myOffers = async(req, res) => {
 
 controller.getUsersByOffer = async(req, res) => {
     const user = req.user
-    const job = req.params.id
+    const jobid = req.params.id
 
     try {
         if (user.role == "company") {
+            const job = await Job.findById(jobid)
             const query = { job: job }
             const offer = await Offer.find(query).populate("user")
             res.json(offer)
