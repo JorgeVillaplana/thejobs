@@ -1,5 +1,6 @@
 const controller = {}
 const User = require('../models/user')
+const Offer = require('../models/offer')
 const validatorSignUp = require('../validators/userSignup')
 const validatorLogin = require('../validators/userLogin')
 const authJWT = require("../auth/jwt")
@@ -103,5 +104,34 @@ controller.deleteUser = async(req, res) => {
     }
 }
 */
+
+controller.myOffers = async(req, res) => {
+    const id = req.user._id
+    const query = { candidate: id }
+    try {
+        const myOffers = await Offer.find(query).populate("job")
+        res.json(myOffers)
+    } catch (err) {
+        console.log(err)
+        res.status(500).send(err.message)
+    }
+}
+
+controller.getUsersByOffer = async(req, res) => {
+    const user = req.user
+    const job = req.params.id
+
+    try {
+        if (user.role == "company") {
+            const query = { job: job }
+            const offer = await Offer.find(query).populate("user")
+            res.json(offer)
+        }
+        res.status(400).send("Error de autenticación.")
+    } catch (err) {
+        console.log(err)
+        res.status(500).send(err.message)
+    }
+}
 
 module.exports = controller
